@@ -61,6 +61,21 @@
 
   a { color: inherit; }
 
+  /* Texto corrido justificado. A hifenização evita os "rios" de espaço que
+     a justificação abre em coluna estreita; o lang="pt-BR" do <html> dá as
+     regras de separação silábica corretas. */
+  .sub,
+  .pillar .claim,
+  .pillar li,
+  .project p,
+  footer p {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+  .project p.stack, .project p.kicker { text-align: left; hyphens: none; }
+
   .wrap {
     max-width: 1760px;
     margin: 0 auto;
