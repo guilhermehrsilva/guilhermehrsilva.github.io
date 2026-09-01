@@ -62,40 +62,60 @@
   a { color: inherit; }
 
   .wrap {
-    max-width: 660px;
+    max-width: 1120px;
     margin: 0 auto;
-    padding: 0 32px;
+    padding: 0 40px;
+  }
+
+  /* Espinha da página: rótulo na coluna lateral, conteúdo na coluna larga.
+     Vira uma coluna só abaixo de 940px. */
+  .row { display: grid; gap: 20px; }
+  .col { min-width: 0; max-width: 68ch; }
+
+  @media (min-width: 940px) {
+    .row { grid-template-columns: 190px minmax(0, 1fr); gap: 88px; }
+    .gutter, .row > h2 { position: sticky; top: 52px; align-self: start; }
   }
 
   /* ------------------------------ hero ------------------------------ */
 
-  header { padding: 136px 0 104px; }
+  header { padding: 128px 0 112px; }
+
+  .gutter {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin: 0;
+    line-height: 1.9;
+  }
 
   h1 {
     font-family: var(--display);
-    font-size: clamp(2.5rem, 8vw, 3.4rem);
-    line-height: 1.08;
-    letter-spacing: -0.035em;
+    font-size: clamp(2.5rem, 6.5vw, 4rem);
+    line-height: 1.06;
+    letter-spacing: -0.038em;
     font-weight: 700;
-    margin: 0 0 20px;
+    margin: 0 0 24px;
   }
 
   .lede {
     font-family: var(--display);
-    font-size: clamp(1.22rem, 3.6vw, 1.44rem);
-    line-height: 1.42;
-    letter-spacing: -0.022em;
+    font-size: clamp(1.3rem, 2.6vw, 1.72rem);
+    line-height: 1.36;
+    letter-spacing: -0.026em;
     font-weight: 500;
-    margin: 0 0 22px;
-    max-width: 27ch;
+    margin: 0 0 26px;
+    max-width: 30ch;
     text-wrap: balance;
   }
 
   .sub {
     color: var(--muted);
-    font-size: 1.02rem;
+    font-size: 1.05rem;
     margin: 0;
-    max-width: 54ch;
+    max-width: 58ch;
   }
 
   .links {
@@ -116,7 +136,7 @@
 
   /* ---------------------------- sections ---------------------------- */
 
-  section { padding: 0 0 104px; }
+  section { padding: 0 0 112px; }
 
   h2 {
     font-family: var(--mono);
@@ -125,12 +145,14 @@
     text-transform: uppercase;
     color: var(--faint);
     font-weight: 500;
-    margin: 0 0 44px;
+    margin: 0 0 28px;
   }
+  @media (min-width: 940px) { h2 { margin-bottom: 0; } }
 
   /* ------------------------------ método ------------------------------ */
 
-  .method > div + div { margin-top: 34px; }
+  .method { display: grid; gap: 36px; }
+  @media (min-width: 720px) { .method { grid-template-columns: 1fr 1fr; gap: 40px 48px; } }
   .method h3 {
     font-family: var(--display);
     font-size: 1.1rem;
@@ -142,7 +164,6 @@
     margin: 0;
     color: var(--muted);
     font-size: 0.99rem;
-    max-width: 56ch;
   }
 
   /* ----------------------------- projetos ----------------------------- */
@@ -161,9 +182,9 @@
 
   .project h3 {
     font-family: var(--display);
-    font-size: 1.4rem;
+    font-size: 1.55rem;
     line-height: 1.25;
-    letter-spacing: -0.026em;
+    letter-spacing: -0.03em;
     font-weight: 600;
     margin: 0 0 16px;
   }
@@ -178,7 +199,7 @@
     margin: 0 0 18px;
     color: var(--muted);
     font-size: 1rem;
-    max-width: 58ch;
+    max-width: 66ch;
   }
   .project p:last-of-type { margin-bottom: 24px; }
   .project p b { color: var(--text); font-weight: 600; }
@@ -199,7 +220,7 @@
     color: var(--faint);
     font-size: 0.94rem;
   }
-  footer p { margin: 0 0 8px; max-width: 56ch; }
+  footer p { margin: 0 0 8px; max-width: 62ch; }
   footer a { color: var(--muted); text-decoration: none; box-shadow: inset 0 -1px 0 0 var(--rule); }
   footer a:hover { color: var(--accent); box-shadow: inset 0 -1px 0 0 var(--accent); }
 </style>
@@ -208,7 +229,9 @@
 
 <div class="wrap">
 
-<header>
+<header class="row">
+  <p class="gutter">AI Engineer<br>Maringá, PR</p>
+  <div class="col">
   <h1>Guilherme Risson</h1>
   <p class="lede">Construo a camada de medição que a maioria dos projetos de IA pula.</p>
   <p class="sub">O protótipo que responde bonito é a parte fácil. O que separa demo de sistema é saber onde ele erra, provar que a resposta veio do documento, e decidir o que fazer quando a confiança não é suficiente. Os projetos abaixo são sobre isso.</p>
@@ -217,10 +240,12 @@
     <a href="https://www.linkedin.com/in/guilhermerisson/">LinkedIn</a>
     <a href="mailto:guilherme.risson@outlook.com">E-mail</a>
   </nav>
+  </div>
 </header>
 
-<section>
+<section class="row">
   <h2>Como eu trabalho</h2>
+  <div class="col">
   <div class="method">
     <div>
       <h3>Verificação antes de geração</h3>
@@ -235,10 +260,12 @@
       <p>O que não foi medido aparece como não medido, não como acerto. Cota de API estourada, amostra pequena, resultado que contrariou minha própria hipótese: tudo isso está nos READMEs.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section>
+<section class="row">
   <h2>Projetos</h2>
+  <div class="col">
 
   <article class="project">
     <p class="kicker">LLM · Extração · Serviço</p>
@@ -293,6 +320,8 @@
     <p>Validação automática das regras antes de resolver, para o solver não devolver resultado bonito sobre dado inconsistente, e trilha de auditoria por rodada em JSON e XLSX, para toda alocação ser rastreável depois. Dashboard em React sobre FastAPI para acompanhar execução e resultado. O repositório não contém nenhum dado institucional real: os exemplos são sintéticos, por desenho.</p>
     <p class="stack">Python · OR-Tools CP-SAT · GRASP · FastAPI · React · TypeScript · SQLite</p>
   </article>
+
+  </div>
 </section>
 
 </div>
