@@ -62,7 +62,7 @@
   a { color: inherit; }
 
   .wrap {
-    max-width: 1120px;
+    max-width: 1040px;
     margin: 0 auto;
     padding: 0 40px;
   }
@@ -70,10 +70,10 @@
   /* Espinha da página: rótulo na coluna lateral, conteúdo na coluna larga.
      Vira uma coluna só abaixo de 940px. */
   .row { display: grid; gap: 20px; }
-  .col { min-width: 0; max-width: 68ch; }
+  .col { min-width: 0; }
 
   @media (min-width: 940px) {
-    .row { grid-template-columns: 190px minmax(0, 1fr); gap: 88px; }
+    .row { grid-template-columns: 168px minmax(0, 1fr); gap: 72px; }
     .gutter, .row > h2 { position: sticky; top: 52px; align-self: start; }
   }
 
