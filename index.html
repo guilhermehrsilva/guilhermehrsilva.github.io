@@ -62,9 +62,9 @@
   a { color: inherit; }
 
   .wrap {
-    max-width: 1040px;
+    max-width: 1760px;
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 clamp(24px, 3.5vw, 64px);
   }
 
   /* Espinha da página: rótulo na coluna lateral, conteúdo na coluna larga.
@@ -73,7 +73,7 @@
   .col { min-width: 0; }
 
   @media (min-width: 940px) {
-    .row { grid-template-columns: 168px minmax(0, 1fr); gap: 72px; }
+    .row { grid-template-columns: 190px minmax(0, 1fr); gap: clamp(48px, 4.5vw, 96px); }
     .gutter, .row > h2 { position: sticky; top: 52px; align-self: start; }
   }
 
@@ -119,11 +119,17 @@
     text-wrap: balance;
   }
 
+  .hero-body { display: grid; gap: 26px; }
+  @media (min-width: 1180px) {
+    .hero-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); column-gap: clamp(48px, 4vw, 88px); align-items: start; }
+    .hero-body .lede { margin-bottom: 0; }
+  }
+
   .sub {
     color: var(--muted);
     font-size: 1.05rem;
     margin: 0 0 18px;
-    max-width: 58ch;
+    max-width: 62ch;
   }
   .sub:last-of-type { margin-bottom: 0; }
   .sub b { color: var(--text); font-weight: 600; }
@@ -161,9 +167,14 @@
 
   /* ------------------------------ pilares ------------------------------ */
 
-  .pillar { padding-bottom: 40px; }
-  .pillar + .pillar { border-top: 1px solid var(--rule); padding-top: 40px; }
-  .pillar:last-child { padding-bottom: 0; }
+  .pillars-grid { display: grid; }
+  .pillar { padding: 40px 0; border-top: 1px solid var(--rule); }
+  .pillar:first-child { border-top: 0; padding-top: 0; }
+
+  @media (min-width: 1180px) {
+    .pillars-grid { grid-template-columns: 1fr 1fr; column-gap: clamp(48px, 4vw, 88px); }
+    .pillar:nth-child(-n+2) { border-top: 0; padding-top: 0; }
+  }
 
   .pillar h3 {
     font-family: var(--display);
@@ -175,7 +186,6 @@
   .pillar .claim {
     color: var(--muted);
     margin: 0 0 18px;
-    max-width: 62ch;
   }
   .pillar ul { margin: 0; padding: 0; list-style: none; }
   .pillar li {
@@ -185,7 +195,6 @@
     margin-bottom: 12px;
     padding-left: 20px;
     position: relative;
-    max-width: 66ch;
   }
   .pillar li:last-child { margin-bottom: 0; }
   .pillar li::before {
@@ -201,8 +210,14 @@
 
   /* ----------------------------- projetos ----------------------------- */
 
-  .project { padding: 0 0 52px; }
-  .project + .project { border-top: 1px solid var(--rule); padding-top: 52px; }
+  .projects { display: grid; }
+  .project { padding: 52px 0; border-top: 1px solid var(--rule); }
+  .project:first-child { border-top: 0; padding-top: 0; }
+
+  @media (min-width: 1180px) {
+    .projects { grid-template-columns: 1fr 1fr; column-gap: clamp(48px, 4vw, 88px); }
+    .project:nth-child(-n+2) { border-top: 0; padding-top: 0; }
+  }
 
   .kicker {
     font-family: var(--mono);
@@ -232,7 +247,6 @@
     margin: 0 0 18px;
     color: var(--muted);
     font-size: 1rem;
-    max-width: 66ch;
   }
   .project p:last-of-type { margin-bottom: 24px; }
   .project p b { color: var(--text); font-weight: 600; }
@@ -253,7 +267,7 @@
     color: var(--faint);
     font-size: 0.94rem;
   }
-  footer p { margin: 0 0 8px; max-width: 62ch; }
+  footer p { margin: 0 0 8px; max-width: 74ch; }
   footer a { color: var(--muted); text-decoration: none; box-shadow: inset 0 -1px 0 0 var(--rule); }
   footer a:hover { color: var(--accent); box-shadow: inset 0 -1px 0 0 var(--accent); }
 </style>
@@ -267,10 +281,16 @@
   <div class="col">
   <h1>Guilherme Risson</h1>
   <p class="pillars-line">dado <b>·</b> backend <b>·</b> negócio <b>·</b> LLM em produção</p>
+  <div class="hero-body">
+  <div>
   <p class="lede">Modelo é a parte fácil. O que decide se o sistema serve para alguma coisa é o que existe em volta dele.</p>
+  </div>
+  <div>
   <p class="sub">Comecei em dados construindo dashboards, respondendo o que já tinha acontecido. Hoje a pergunta que me move é outra: como construir um sistema de IA e <b>confiar nele</b>.</p>
   <p class="sub">Ela ficou concreta quando montei um RAG sobre 294 normativos do Banco Central. Pelos números de similaridade a recuperação ia bem, até eu medir o que de fato chegava ao modelo: 44,6% do corpus estava revogado e, em 80% das perguntas, o contexto entregue continha norma que não vale mais. Nenhuma métrica clássica acusava isso. Uma resposta fluente citando resolução morta tem exatamente a mesma cara da resposta certa.</p>
   <p class="sub">Foi essa virada que definiu meu caminho: não basta construir sistemas de IA, é preciso provar que eles funcionam.</p>
+  </div>
+  </div>
   <nav class="links">
     <a href="https://github.com/guilhermehrsilva">GitHub</a>
     <a href="https://www.linkedin.com/in/guilhermerisson/">LinkedIn</a>
@@ -282,6 +302,7 @@
 <section class="row">
   <h2>Os quatro pilares</h2>
   <div class="col">
+    <div class="pillars-grid">
 
     <div class="pillar">
       <h3>LLM em produção</h3>
@@ -328,12 +349,14 @@
       </ul>
     </div>
 
+    </div>
   </div>
 </section>
 
 <section class="row">
   <h2>Projetos</h2>
   <div class="col">
+  <div class="projects">
 
   <article class="project">
     <p class="kicker">RAG · Retrieval · Avaliação</p>
@@ -393,6 +416,7 @@
     <p class="stack">Gemini · Streamlit · Plotly · Pandas · MySQL</p>
   </article>
 
+  </div>
   </div>
 </section>
 
