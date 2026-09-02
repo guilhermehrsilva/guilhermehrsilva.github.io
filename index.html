@@ -20,16 +20,17 @@
   /* Paleta do diretório de marca.
      Claro: família "paper":  paper #F5F5F7, ink #1D1D1F
      Escuro: família "ink":   ink #06152E, azul #123F8F
-     Acento nos dois: coral #FF6A45, escurecido no claro por contraste. */
+     Acento nos dois: coral #FF6A45. No claro ele vira #C23A18 para passar
+     o contraste minimo de 4,5:1 sobre o fundo paper. */
   :root {
-    --bg:      #f5f5f7;
-    --text:    #1d1d1f;
-    --muted:   #6e6e73;
-    --faint:   #a1a1a6;
-    --rule:        #e4e6ec;
-    --rule-strong: #c9ccd6;
-    --azul:        #123f8f;
-    --accent:      #d9451f;
+    --bg:            #f5f5f7;
+    --text:          #1d1d1f;
+    --muted:         #6e6e73;
+    --faint:         #64646a;
+    --rule:          #e4e6ec;
+    --rule-strong:   #c9ccd6;
+    --azul:          #123f8f;
+    --accent:        #c23a18;
 
     --display: Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     --sans:    Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -37,14 +38,14 @@
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg:     #06152e;
-      --text:   #eef1f6;
-      --muted:  #9aa6ba;
-      --faint:  #7a879d;
-      --rule:        #14294a;
-      --rule-strong: #2a4370;
-      --azul:        #4c82e6;
-      --accent:      #ff6a45;
+      --bg:            #06152e;
+      --text:          #eef1f6;
+      --muted:         #9aa6ba;
+      --faint:         #8c99ae;
+      --rule:          #14294a;
+      --rule-strong:   #2a4370;
+      --azul:          #4c82e6;
+      --accent:        #ff6a45;
     }
   }
 
