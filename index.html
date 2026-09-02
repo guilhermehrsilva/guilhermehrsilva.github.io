@@ -243,23 +243,33 @@
 
   /* ----------------------------- projetos ----------------------------- */
 
-  .projects { display: grid; }
-  .project { padding: 52px 0; border-top: 1px solid var(--rule); }
+  .project { padding: 48px 0; border-top: 1px solid var(--rule); }
   .project:first-child { border-top: 0; padding-top: 0; }
 
+  /* Identificacao a esquerda, prosa a direita. Cada projeto e uma linha com a
+     propria altura, entao nenhum card estica a linha do vizinho. */
   @media (min-width: 1180px) {
-    .projects { grid-template-columns: 1fr 1fr; column-gap: clamp(48px, 4vw, 88px); }
-    .project:nth-child(-n+2) { border-top: 0; padding-top: 0; }
+    .project {
+      display: grid;
+      grid-template-columns: minmax(0, 230px) minmax(0, 1fr);
+      column-gap: clamp(40px, 3.5vw, 72px);
+      align-items: start;
+    }
+    .project-meta { position: sticky; top: 52px; }
   }
+
+  .project-meta { margin-bottom: 20px; }
+  @media (min-width: 1180px) { .project-meta { margin-bottom: 0; } }
+  .project-body > p:last-child { margin-bottom: 0; }
 
   .project h3 {
     font-family: var(--display);
-    margin-top: 0;
-    font-size: 1.55rem;
+    font-size: 1.35rem;
     line-height: 1.25;
     letter-spacing: -0.03em;
     font-weight: 600;
-    margin: 0 0 16px;
+    margin: 0 0 14px;
+    overflow-wrap: anywhere;
   }
   .project h3 a {
     text-decoration: none;
@@ -283,7 +293,8 @@
     letter-spacing: -0.01em;
     display: flex;
     flex-wrap: wrap;
-    gap: 4px 20px;
+    gap: 5px 16px;
+    line-height: 1.5;
   }
 
   /* ------------------------------ rodapé ------------------------------ */
@@ -383,57 +394,85 @@
 <section class="row">
   <h2>Projetos</h2>
   <div class="col">
-  <div class="projects">
+  <div class="project-list">
 
   <article class="project">
-    <h3><a href="https://github.com/guilhermehrsilva/regulatory-rag-eval">regulatory-rag-eval</a></h3>
-    <p>Num corpus de <span class="m">294</span> normativos do BACEN sobre Pix, <span class="m">44,6%</span> estão revogados, e a recuperação entrega norma morta ao modelo em <span class="m">80%</span> das perguntas. Nenhuma métrica de similaridade acusa isso.</p>
-    <p>Não é um chatbot sobre regulação, é a medição de um. Recuperação híbrida com fusão RRF levou o MRR de <span class="m">0,361</span> para <span class="m">0,644</span> e o recall@1 de <span class="m">0,133</span> para <span class="m">0,533</span>. Some-se a resolução de dispositivos empilhados (o BACEN publica até sete versões do mesmo inciso coladas em sequência) e auditoria de vigência por citação. As duas camadas que sustentam o argumento não usam LLM nenhum.</p>
-    <p>A geração está implementada mas não tem métrica publicada, porque a cota gratuita corrompeu a bateria. Está escrito assim no README, como pendência.</p>
-    <p class="stack"><span>sentence-transformers</span><span>rank-bm25</span><span>RRF</span><span>Gemini</span><span>47 testes</span></p>
+    <div class="project-meta">
+      <h3><a href="https://github.com/guilhermehrsilva/regulatory-rag-eval">regulatory-rag-eval</a></h3>
+      <p class="stack"><span>sentence-transformers</span><span>rank-bm25</span><span>RRF</span><span>Gemini</span><span>47 testes</span></p>
+    </div>
+    <div class="project-body">
+      <p>Num corpus de <span class="m">294</span> normativos do BACEN sobre Pix, <span class="m">44,6%</span> estão revogados, e a recuperação entrega norma morta ao modelo em <span class="m">80%</span> das perguntas. Nenhuma métrica de similaridade acusa isso.</p>
+      <p>Não é um chatbot sobre regulação, é a medição de um. Recuperação híbrida com fusão RRF levou o MRR de <span class="m">0,361</span> para <span class="m">0,644</span> e o recall@1 de <span class="m">0,133</span> para <span class="m">0,533</span>. Some-se a resolução de dispositivos empilhados (o BACEN publica até sete versões do mesmo inciso coladas em sequência) e auditoria de vigência por citação. As duas camadas que sustentam o argumento não usam LLM nenhum.</p>
+      <p>A geração está implementada mas não tem métrica publicada, porque a cota gratuita corrompeu a bateria. Está escrito assim no README, como pendência.</p>
+    </div>
   </article>
 
   <article class="project">
-    <h3><a href="https://github.com/guilhermehrsilva/procurement-triage-service">procurement-triage-service</a></h3>
-    <p>Triagem de editais públicos do PNCP. Não é um chatbot sobre editais: extrai os três campos que decidem se vale a pena ler um edital (prazo, valor estimado, exigências de habilitação) com citação verificável, e ordena a fila de leitura por valor esperado sob a capacidade real de um time.</p>
-    <p>O verificador não usa LLM. Cada campo extraído só é aceito se o trecho citado existir literalmente no PDF e o valor parseado bater com ele. Isso transformou um resultado ruim em informação útil: no conjunto dourado de <span class="m">7</span> editais rotulados à mão, prazo acertou <span class="m">2</span>. O modelo confunde “abertura da sessão” com “prazo da proposta” mesmo com o prompt proibindo, e a citação correta prova que o erro é de julgamento, não de parsing. Depois da correção de prompt, a resposta errada com confiança virou abstenção com justificativa.</p>
-    <p><span class="m">300</span> editais ingeridos, <span class="m">96,7%</span> com texto extraível sem OCR, <span class="m">61</span> testes offline, orçamento de custo e timeout aplicado no código. Custo medido de <span class="m">US$ 0,028</span> por edital, latência p50 de <span class="m">12,1 s</span>.</p>
-    <p class="stack"><span>Python</span><span>Gemini</span><span>FastAPI</span><span>Docker</span><span>pytest</span><span>GitHub Actions</span><span>PNCP API</span></p>
+    <div class="project-meta">
+      <h3><a href="https://github.com/guilhermehrsilva/procurement-triage-service">procurement-triage-service</a></h3>
+      <p class="stack"><span>Python</span><span>Gemini</span><span>FastAPI</span><span>Docker</span><span>pytest</span><span>GitHub Actions</span><span>PNCP API</span></p>
+    </div>
+    <div class="project-body">
+      <p>Triagem de editais públicos do PNCP. Não é um chatbot sobre editais: extrai os três campos que decidem se vale a pena ler um edital (prazo, valor estimado, exigências de habilitação) com citação verificável, e ordena a fila de leitura por valor esperado sob a capacidade real de um time.</p>
+      <p>O verificador não usa LLM. Cada campo extraído só é aceito se o trecho citado existir literalmente no PDF e o valor parseado bater com ele. Isso transformou um resultado ruim em informação útil: no conjunto dourado de <span class="m">7</span> editais rotulados à mão, prazo acertou <span class="m">2</span>. O modelo confunde “abertura da sessão” com “prazo da proposta” mesmo com o prompt proibindo, e a citação correta prova que o erro é de julgamento, não de parsing. Depois da correção de prompt, a resposta errada com confiança virou abstenção com justificativa.</p>
+      <p><span class="m">300</span> editais ingeridos, <span class="m">96,7%</span> com texto extraível sem OCR, <span class="m">61</span> testes offline, orçamento de custo e timeout aplicado no código. Custo medido de <span class="m">US$ 0,028</span> por edital, latência p50 de <span class="m">12,1 s</span>.</p>
+    </div>
   </article>
 
   <article class="project">
-    <h3><a href="https://github.com/guilhermehrsilva/silent-data-defects">silent-data-defects</a></h3>
-    <p>Ranqueia defeitos pelo quanto mudam a decisão, não por prevalência, e emite o contrato executável que impede o defeito de voltar. O defeito em <span class="m">7º</span> lugar por prevalência sobe para <span class="m">3º</span> por impacto. O <span class="m">4º</span> inverte exatamente zero decisões.</p>
-    <p><span class="m">25x</span> mais rápido e <span class="m">24x</span> mais econômico em memória que o ydata-profiling, com precisão de <span class="m">100%</span> e zero falsos positivos em 100 colunas limpas. A margem até o limiar é apertada, e está publicada junto, registrada como limite conhecido.</p>
-    <p class="stack"><span>DuckDB</span><span>PyArrow</span><span>Parquet</span><span>CLI empacotada</span></p>
+    <div class="project-meta">
+      <h3><a href="https://github.com/guilhermehrsilva/silent-data-defects">silent-data-defects</a></h3>
+      <p class="stack"><span>DuckDB</span><span>PyArrow</span><span>Parquet</span><span>CLI empacotada</span></p>
+    </div>
+    <div class="project-body">
+      <p>Ranqueia defeitos pelo quanto mudam a decisão, não por prevalência, e emite o contrato executável que impede o defeito de voltar. O defeito em <span class="m">7º</span> lugar por prevalência sobe para <span class="m">3º</span> por impacto. O <span class="m">4º</span> inverte exatamente zero decisões.</p>
+      <p><span class="m">25x</span> mais rápido e <span class="m">24x</span> mais econômico em memória que o ydata-profiling, com precisão de <span class="m">100%</span> e zero falsos positivos em 100 colunas limpas. A margem até o limiar é apertada, e está publicada junto, registrada como limite conhecido.</p>
+    </div>
   </article>
 
   <article class="project">
-    <h3><a href="https://github.com/guilhermehrsilva/teacher-allocation-optimizer">teacher-allocation-optimizer</a></h3>
-    <p>Sistema full-stack de otimização com CP-SAT em operação: validação de entrada, dois solvers deliberadamente isolados (a aba de cenários não consegue sobrescrever a rodada publicada), auditoria por rodada e dashboard React.</p>
-    <p>Suíte de testes, SBOM CycloneDX e inventário de licenças de terceiros. É a prova de que entrego sistema, não notebook. O repositório não contém nenhum dado institucional real: os exemplos são sintéticos, por desenho.</p>
-    <p class="stack"><span>OR-Tools CP-SAT</span><span>FastAPI</span><span>React 19</span><span>TypeScript</span><span>SBOM</span></p>
+    <div class="project-meta">
+      <h3><a href="https://github.com/guilhermehrsilva/teacher-allocation-optimizer">teacher-allocation-optimizer</a></h3>
+      <p class="stack"><span>OR-Tools CP-SAT</span><span>FastAPI</span><span>React 19</span><span>TypeScript</span><span>SBOM</span></p>
+    </div>
+    <div class="project-body">
+      <p>Sistema full-stack de otimização com CP-SAT em operação: validação de entrada, dois solvers deliberadamente isolados (a aba de cenários não consegue sobrescrever a rodada publicada), auditoria por rodada e dashboard React.</p>
+      <p>Suíte de testes, SBOM CycloneDX e inventário de licenças de terceiros. É a prova de que entrego sistema, não notebook. O repositório não contém nenhum dado institucional real: os exemplos são sintéticos, por desenho.</p>
+    </div>
   </article>
 
   <article class="project">
-    <h3><a href="https://github.com/guilhermehrsilva/credit-risk-decision-engine">credit-risk-decision-engine</a></h3>
-    <p>Trocar o corte de 0,50 pelo break-even econômico rendeu <span class="m">24,0%</span> a mais na carteira de teste, com o mesmo modelo e a mesma AUC. O corte ótimo sai de duas constantes de negócio e não olha uma linha do dataset. Ainda assim ganhou do ótimo procurado por varredura, que pegou ruído da amostra.</p>
-    <p>Reason codes por TreeSHAP exato, atributos protegidos fora das features e auditoria de paridade publicada inclusive onde ela reprova, com <span class="m">0,767</span> no grupo até 25 anos, abaixo da regra dos 4/5. No monitoramento, o PSI agregado sobre o escore não disparou quando a aprovação caiu <span class="m">7 pontos</span>: só o CSI por feature pegou.</p>
-    <p class="stack"><span>LightGBM</span><span>TreeSHAP</span><span>PSI e CSI</span><span>16 testes</span></p>
+    <div class="project-meta">
+      <h3><a href="https://github.com/guilhermehrsilva/credit-risk-decision-engine">credit-risk-decision-engine</a></h3>
+      <p class="stack"><span>LightGBM</span><span>TreeSHAP</span><span>PSI e CSI</span><span>16 testes</span></p>
+    </div>
+    <div class="project-body">
+      <p>Trocar o corte de 0,50 pelo break-even econômico rendeu <span class="m">24,0%</span> a mais na carteira de teste, com o mesmo modelo e a mesma AUC. O corte ótimo sai de duas constantes de negócio e não olha uma linha do dataset. Ainda assim ganhou do ótimo procurado por varredura, que pegou ruído da amostra.</p>
+      <p>Reason codes por TreeSHAP exato, atributos protegidos fora das features e auditoria de paridade publicada inclusive onde ela reprova, com <span class="m">0,767</span> no grupo até 25 anos, abaixo da regra dos 4/5. No monitoramento, o PSI agregado sobre o escore não disparou quando a aprovação caiu <span class="m">7 pontos</span>: só o CSI por feature pegou.</p>
+    </div>
   </article>
 
   <article class="project">
-    <h3><a href="https://github.com/guilhermehrsilva/fraud-triage-under-capacity">fraud-triage-under-capacity</a></h3>
-    <p>Uma regra de duas linhas, sem modelo nenhum, pega <span class="m">97,70%</span> das fraudes do PaySim. Todo AUC de 0,99 publicado sobre esse dataset está reproduzindo essa regra com mais passos.</p>
-    <p>Audita o benchmark e reconstrói sem os atalhos: a PR-AUC honesta cai de <span class="m">1,000</span> para <span class="m">0,406</span> enquanto a ROC mal se move. A decisão vira triagem sob capacidade finita, onde ordenar por valor em risco barra <span class="m">77%</span> do valor fraudado revisando <span class="m">0,11%</span> do tráfego. Pega menos fraudes e salva mais dinheiro.</p>
-    <p class="stack"><span>LightGBM</span><span>métricas de evento raro</span><span>18 testes</span></p>
+    <div class="project-meta">
+      <h3><a href="https://github.com/guilhermehrsilva/fraud-triage-under-capacity">fraud-triage-under-capacity</a></h3>
+      <p class="stack"><span>LightGBM</span><span>métricas de evento raro</span><span>18 testes</span></p>
+    </div>
+    <div class="project-body">
+      <p>Uma regra de duas linhas, sem modelo nenhum, pega <span class="m">97,70%</span> das fraudes do PaySim. Todo AUC de 0,99 publicado sobre esse dataset está reproduzindo essa regra com mais passos.</p>
+      <p>Audita o benchmark e reconstrói sem os atalhos: a PR-AUC honesta cai de <span class="m">1,000</span> para <span class="m">0,406</span> enquanto a ROC mal se move. A decisão vira triagem sob capacidade finita, onde ordenar por valor em risco barra <span class="m">77%</span> do valor fraudado revisando <span class="m">0,11%</span> do tráfego. Pega menos fraudes e salva mais dinheiro.</p>
+    </div>
   </article>
 
   <article class="project">
-    <h3><a href="https://github.com/guilhermehrsilva/data-insight-ai">data-insight-ai</a></h3>
-    <p>BI self-service em que o Gemini explora o dataset, recomenda KPIs, gera mais de <span class="m">30</span> tipos de gráfico e responde perguntas de negócio em linguagem natural.</p>
-    <p>Tem modo de fallback que mantém os gráficos de pé quando a API cai. A indisponibilidade do provedor não derruba a ferramenta inteira.</p>
-    <p class="stack"><span>Gemini</span><span>Streamlit</span><span>Plotly</span><span>Pandas</span><span>MySQL</span></p>
+    <div class="project-meta">
+      <h3><a href="https://github.com/guilhermehrsilva/data-insight-ai">data-insight-ai</a></h3>
+      <p class="stack"><span>Gemini</span><span>Streamlit</span><span>Plotly</span><span>Pandas</span><span>MySQL</span></p>
+    </div>
+    <div class="project-body">
+      <p>BI self-service em que o Gemini explora o dataset, recomenda KPIs, gera mais de <span class="m">30</span> tipos de gráfico e responde perguntas de negócio em linguagem natural.</p>
+      <p>Tem modo de fallback que mantém os gráficos de pé quando a API cai. A indisponibilidade do provedor não derruba a ferramenta inteira.</p>
+    </div>
   </article>
 
   </div>
