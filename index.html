@@ -390,10 +390,10 @@
         <p>github.com/guilhermehrsilva</p>
         <span class="arrow" aria-hidden="true">→</span>
       </a>
-      <a class="row" href="cv-guilherme-risson.pdf" target="_blank" rel="noopener">
+      <a class="row" href="cv-guilherme-risson.pdf" target="_blank" rel="noopener" data-i18n-href="contact.cvFile">
         <span class="label">CV</span>
         <h3 data-i18n="contact.cv">Currículo em PDF</h3>
-        <p>cv-guilherme-risson.pdf</p>
+        <p data-i18n="contact.cvFile">cv-guilherme-risson.pdf</p>
         <span class="arrow" aria-hidden="true">→</span>
       </a>
     </div>
@@ -450,7 +450,8 @@
       "contact.h2": "Contact.",
       "contact.email": "Email",
       "contact.emailDesc": "AI Software Engineer roles, remote or in Maringá, Brazil.",
-      "contact.cv": "Résumé (PDF, Portuguese)",
+      "contact.cv": "Résumé (PDF)",
+      "contact.cvFile": "cv-guilherme-risson-en.pdf",
       "footer.top": "Back to top ↑",
     },
     es: {
@@ -494,7 +495,8 @@
       "contact.h2": "Contacto.",
       "contact.email": "Correo",
       "contact.emailDesc": "Vacantes de AI Software Engineer, remoto o en Maringá, Brasil.",
-      "contact.cv": "Currículum en PDF (portugués)",
+      "contact.cv": "Currículum en PDF (inglés)",
+      "contact.cvFile": "cv-guilherme-risson-en.pdf",
       "footer.top": "Volver arriba ↑",
     },
   };
@@ -502,9 +504,11 @@
   const HTML_LANG = { pt: "pt-BR", en: "en", es: "es" };
   const textNodes = document.querySelectorAll("[data-i18n]");
   const altNodes = document.querySelectorAll("[data-i18n-alt]");
+  const hrefNodes = document.querySelectorAll("[data-i18n-href]");
   I18N.pt = {};
   textNodes.forEach((el) => { I18N.pt[el.dataset.i18n] = el.innerHTML; });
   altNodes.forEach((el) => { I18N.pt[el.dataset.i18nAlt] = el.alt; });
+  hrefNodes.forEach((el) => { I18N.pt[el.dataset.i18nHref] = el.getAttribute("href"); });
 
   const select = document.getElementById("lang");
 
@@ -512,6 +516,7 @@
     const dict = I18N[lang] || I18N.pt;
     textNodes.forEach((el) => { el.innerHTML = dict[el.dataset.i18n] ?? I18N.pt[el.dataset.i18n]; });
     altNodes.forEach((el) => { el.alt = dict[el.dataset.i18nAlt] ?? I18N.pt[el.dataset.i18nAlt]; });
+    hrefNodes.forEach((el) => { el.setAttribute("href", dict[el.dataset.i18nHref] ?? I18N.pt[el.dataset.i18nHref]); });
     document.documentElement.lang = HTML_LANG[lang];
     select.value = lang;
   }
